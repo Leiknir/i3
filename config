@@ -22,7 +22,7 @@ bindsym $mod+n border normal
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font xft:URWGothic-Book 11P
+font xft:URWGothic-Book 12
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod
@@ -49,13 +49,21 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 ################################################################################################
 
 # Change volume
-bindsym Mod1+c exec amixer -q set Master 2dB+ unmute
-bindsym Mod1+x exec amixer -q set Master 2dB- unmute
-bindsym Mod1+z exec amixer -q set Master toggle
+set $psst --no-startup-id
+set $update && killall -SIGUSR1 i3status
+bindsym Mod1+c exec $psst amixer -q set Master 2dB+ unmute $update
+bindsym Mod1+x exec $psst amixer -q set Master 2dB- unmute $update
+bindsym Mod1+z exec $psst amixer -q set Master toggle $update
+
 
 #bindsym Mod1+x exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 #bindsym Mod1+z exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 #bindsym Mod1+c exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+
+
+#bindsym Mod1+c exec $psst amixer -D pulse sset Master '3%+' $update
+#bindsym Mod1+x exec $psst amixer -D pulse sset Master '2%-' $update
+#bindsym Mod1+z exec $psst amixer -q sset Master toggle $update
 
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
@@ -65,12 +73,12 @@ bindsym Mod1+z exec amixer -q set Master toggle
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
 bindsym $mod+F2 exec palemoon
 bindsym ctrl+E exec pcmanfm
+bindsym Mod1+grave exec chromium
 bindsym Mod1+1 exec chromium
 bindsym Mod1+2 exec gpmdp
 bindsym Mod1+3 exec subl3
 bindsym Ctrl+grave exec konsole
 bindsym $mod+Return exec konsole
-bindsym Mod1+grave exec pcmanfm
 bindsym $mod+Shift+F3 exec gksu pcmanfm
 bindsym $mod+F5 exec terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id pkill compton
@@ -250,7 +258,7 @@ bindsym $mod+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Set shut down, restart and locking features
-bindsym Pause mode "$mode_system"
+bindsym $mod+0 mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3exit lock, mode "default"
@@ -265,6 +273,8 @@ mode "$mode_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+
+bindsym Pause exec --no-startup-id i3exit hibernate, mode "default"
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+Shift+r mode "resize"
@@ -315,9 +325,7 @@ exec --no-startup-id start_conky_green
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
-exec --no-startup-id i3-msg 'workspace 1:LEFT; exec /usr/bin/konsole'
-exec --no-startup-id i3-msg 'workspace 1:LEFT; exec /usr/bin/gpmdp'
-# exec --no-startup-id i3-msg 'workspace 4:RIGHT; exec /usr/bin/chromium'
+exec --no-startup-id i3-msg 'workspace3:UP; exec chromium; workspace 1:LEFT; exec gpmdp; exec konsole;'
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
