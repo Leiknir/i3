@@ -276,7 +276,7 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-bindsym Pause exec --no-startup-id i3exit hibernate, mode "default"
+bindsym Pause exec --no-startup-id i3exit lock, mode "default"
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+Shift+r mode "resize"
@@ -327,7 +327,7 @@ exec --no-startup-id clipit
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
-exec --no-startup-id i3-msg 'workspace 1:LEFT; exec gpmdp; exec konsole;'
+exec --no-startup-id i3-msg 'workspace 1:LEFT; exec gpmdp; exec subl3;'
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
